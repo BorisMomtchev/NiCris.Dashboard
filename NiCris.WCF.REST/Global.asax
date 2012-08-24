@@ -1,0 +1,1 @@
+<%@ Application Codebehind="Global.asax.cs" Inherits="NiCris.WCF.REST.Global" Language="C#" %>
