@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
-using System.Text;
+using NiCris.Core.Validation;
 using NiCris.DataAccess.Interfaces;
 using NiCris.DataAccess.SQL.LinqToSQL;
 using NiCris.DataAccess.SQL.Mappers;
-using NiCris.Core.Validation;
-using System.Data.Linq;
 
 namespace NiCris.DataAccess.SQL.Repositories
 {
@@ -49,7 +48,7 @@ namespace NiCris.DataAccess.SQL.Repositories
                     db.SubmitChanges();
 
                     model.Id = entity.Id;
-                    // model.RowVersion = VersionConverter.ToString(entity.rowversion);
+                    model.RowVersion = VersionConverter.ToString(entity.rowversion);
                     return entity.Id;
                 }
                 catch (ChangeConflictException)
@@ -70,8 +69,7 @@ namespace NiCris.DataAccess.SQL.Repositories
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
-                    throw new Exception("There was an error inserting the record!");
+                    throw new Exception("There was an error inserting the record! " + ex.Message);
                 }
             }
 
@@ -94,7 +92,7 @@ namespace NiCris.DataAccess.SQL.Repositories
                     db.SubmitChanges();
 
                     model.Id = entity.Id;
-                    // model.RowVersion = VersionConverter.ToString(entity.rowversion);
+                    model.RowVersion = VersionConverter.ToString(entity.rowversion);
                     return entity.Id;
                 }
                 catch (ChangeConflictException)
@@ -115,8 +113,7 @@ namespace NiCris.DataAccess.SQL.Repositories
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
-                    throw new Exception("There was an error updating the record!");
+                    throw new Exception("There was an error updating the record! " + ex.Message);
                 }
             }
 
