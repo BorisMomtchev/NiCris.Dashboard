@@ -78,6 +78,7 @@
     <Content Include="XmlConfigFiles\BizMsg.xml" />
     <Content Include="XmlConfigFiles\BizMsg_CRUD.xml" />
     <Content Include="XmlConfigFiles\BizMsg_CRU.xml" />
+    <Content Include="XmlConfigFiles\BizMsg_DYN.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

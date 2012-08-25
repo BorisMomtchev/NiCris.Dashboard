@@ -1,0 +1,68 @@
+<NiCris.AutoTester>
+  <Configuration
+		ServiceURI="http://localhost:3505/BizMsgService/"
+    ServicePort= "80"
+		ServiceType="REST"
+    
+    AuthRequired="False"
+    
+    NumberOfMessages="10"
+		MessageDelay="100"
+    DynamicLibrary="True"
+    
+		LogRequest="true"
+		LogResponce="true">
+  </Configuration>
+
+  <!-- Leave ServicePort= "80" & ServiceType="REST" for now... -->
+  <!-- AuthRequired - bool, possible values: True, False -->
+  <!-- AuthSchema - enum, possible values: Basic, Token -->
+
+  <Message>
+    <MessageParams>
+      <Param01 code = "%DATETIME%" />
+      <Param02 code = "%NAME_ID%" initialValue="1000000" method="Get_NAME_ID_DYN" />
+      <Param03 code = "%USER_ID%" initialValue="2000000" method="Get_USER_ID_DYN" />
+    </MessageParams>
+
+    <!-- ID is a GUID and is set by the User or Service -->
+    <!-- TODO: Describe all params here... -->
+
+    <!-- CDATA section will be ignored by the parser. <![CDATA[ - Please, place the raw message here with all the placeholders identified by %%. ]]> -->
+    <MessageTemplate>
+
+    <![CDATA[
+      <BizMsg xmlns="http://schemas.datacontract.org/2004/07/NiCris.BusinessObjects">
+        <Date>%DATETIME%</Date> 
+        <Name>Name: %NAME_ID%</Name> 
+        <User>User: %USER_ID%</User> 
+      </BizMsg>
+    ]]>
+
+    </MessageTemplate>
+  </Message>
+
+  <!--Dynamic Rules definition...-->
+  <DynamicLibrarySource>
+    <![CDATA[
+      using System;
+
+      namespace DynamicLibrary
+      {
+          public static class Rules
+          {
+              public static int Get_NAME_ID_DYN(string initialValue, int index)
+              {
+                  return int.Parse(initialValue) + index;
+              }
+              public static int Get_USER_ID_DYN(string initialValue, int index)
+              {
+                  int[] args = { 1, 2 };
+                  return int.Parse(initialValue) + index * args[0] + args[1];
+              }
+          }
+      }
+  ]]>
+  </DynamicLibrarySource>
+
+</NiCris.AutoTester>
