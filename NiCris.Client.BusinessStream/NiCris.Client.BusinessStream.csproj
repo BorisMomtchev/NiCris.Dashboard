@@ -47,8 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aspects\BizMsgAspect.cs" />
     <Compile Include="Aspects\ExceptionAspect.cs" />
     <Compile Include="Aspects\LogAspect.cs" />
+    <Compile Include="Aspects\SimpleTraceAttribute.cs" />
     <Compile Include="Aspects\TimingAspect.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
