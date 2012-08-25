@@ -61,3 +61,6 @@ packages/
 
 #Test files
 *.testsettings
+
+#Database Files
+#Data/
