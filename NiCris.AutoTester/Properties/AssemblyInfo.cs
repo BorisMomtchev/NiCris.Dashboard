@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NiCris.Core")]
+[assembly: AssemblyTitle("NiCris.AutoTester")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NiCris.Core")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("NiCris.AutoTester")]
 [assembly: AssemblyCopyright("Copyright © NiCris 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e464ab4b-a7bd-46b7-9f5c-e21e3c9784c9")]
+[assembly: Guid("00f3c209-b0a5-4060-88d6-54c8c1d874e7")]
 
 // Version information for an assembly consists of the following four values:
 //

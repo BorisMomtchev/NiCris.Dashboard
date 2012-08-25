@@ -1,0 +1,44 @@
+<NiCris.AutoTester>
+	<Configuration 
+		ServiceURI="http://localhost:3505/BizMsgService/"
+    ServicePort= "80"
+		ServiceType="REST"
+    
+    AuthRequired="False"
+    
+    NumberOfMessages="10"
+		MessageDelay="100"
+    
+		LogRequest="true"
+		LogResponce="true">
+	</Configuration>
+
+  <!-- Leave ServicePort= "80" & ServiceType="REST" for now... -->
+  <!-- AuthRequired - bool, possible values: True, False -->
+  <!-- AuthSchema - enum, possible values: Basic, Token -->
+  
+  <Message>
+		<MessageParams>
+      <Param01 code = "%ID%" />
+      <Param02 code = "%DATETIME%" />
+      <Param03 code = "%NAME_ID%" initialValue = "1000" />
+      <Param04 code = "%USER_ID%" initialValue = "2000" />
+		</MessageParams>
+
+    <!-- ID is a GUID and is set by the User or Service -->
+    <!-- TODO: Describe all params here... -->
+    
+		<!-- CDATA section will be ignored by the parser. <![CDATA[ - Please, place the raw message here with all the placeholders identified by %%. ]]> -->
+    <MessageTemplate>
+
+    <![CDATA[
+      <BizMsg xmlns="http://schemas.datacontract.org/2004/07/NiCris.BusinessObjects">
+        <Date>%DATETIME%</Date> 
+        <Name>Name: %NAME_ID%</Name> 
+        <User>User: %USER_ID%</User> 
+      </BizMsg>
+    ]]>
+      
+		</MessageTemplate>
+	</Message>
+</NiCris.AutoTester>

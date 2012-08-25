@@ -9,6 +9,8 @@ using NiCris.CoreServices.Interfaces;
 using NiCris.CoreServices.Services;
 using NiCris.DataAccess.SQL.Repositories;
 using NiCris.WCF.REST.ViewModels;
+using System.Net;
+using System;
 
 namespace NiCris.WCF.REST
 {
@@ -59,8 +61,13 @@ namespace NiCris.WCF.REST
         {
             var id = _bizMsgCoreService.Insert(bizMsg);
 
-            OutgoingWebResponseContext ctx = WebOperationContext.Current.OutgoingResponse;
+            var ctx = WebOperationContext.Current.OutgoingResponse;
             ctx.StatusCode = System.Net.HttpStatusCode.Created;
+
+            // Set the Http Location Header
+            HttpResponseHeader locationHeader = HttpResponseHeader.Location;
+            string locationValue = WebOperationContext.Current.IncomingRequest.GetRequestUri() + id.ToString();
+            ctx.Headers.Add(locationHeader, locationValue);
         }
 
         [WebHelp(Comment = "Updates a BizMsgs.")]
@@ -85,6 +92,11 @@ namespace NiCris.WCF.REST
 
             OutgoingWebResponseContext ctx = WebOperationContext.Current.OutgoingResponse;
             ctx.StatusCode = System.Net.HttpStatusCode.Accepted;
+
+            // Set the Http Location Header
+            HttpResponseHeader locationHeader = HttpResponseHeader.Location;
+            string locationValue = WebOperationContext.Current.IncomingRequest.GetRequestUri() + id.ToString();
+            ctx.Headers.Add(locationHeader, locationValue);
         }
 
         [WebHelp(Comment = "Deletes an BizMsgs.")]

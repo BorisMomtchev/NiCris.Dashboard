@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Pine River Capital")]
 [assembly: AssemblyProduct("NiCris.WCF.REST")]
-[assembly: AssemblyCopyright("Copyright © Pine River Capital 2011")]
+[assembly: AssemblyCopyright("Copyright © NiCris 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

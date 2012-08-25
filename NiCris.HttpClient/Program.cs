@@ -9,7 +9,7 @@ namespace NiCris.HttpClient
     {
         static Microsoft.Http.HttpClient client = new Microsoft.Http.HttpClient();
         static string BizMsgServiceUrl = "http://localhost:3505/BizMsgService/";
-        const string testID = "43";
+        static string testID = string.Empty;
 
         static void Main(string[] args)
         {
@@ -114,8 +114,10 @@ namespace NiCris.HttpClient
                     return;
                 }
 
-                // string data = "Created - " + response.Content.ReadAsString();
-                // Console.WriteLine("{0}", data);
+                /* /BizMsgService/314 */
+                testID = response.Headers.Location.AbsolutePath.Split('/')[2];
+                string data = "Location Header: " + testID;
+                Console.WriteLine("{0}", data);
             }
         }
 
@@ -134,6 +136,9 @@ namespace NiCris.HttpClient
                     response.Dispose();
                     return;
                 }
+
+                /* /BizMsgService/314 */
+                Console.WriteLine("Location Header: {0}", testID);
             }
         }
 

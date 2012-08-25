@@ -45,7 +45,7 @@ namespace NiCris.IntegTests.Core
             repository.Delete(savedBizMsg);
         }
 
-        // [Test]
+        [Test]
         public void BizMsg_Populate()
         {
             // Arrange -> Act -> Assert
@@ -66,7 +66,19 @@ namespace NiCris.IntegTests.Core
             // Save to db
             foreach (var item in result)
                 repository.Insert(item);
+        }
 
+
+        [Test]
+        public void BizMsg_Delete()
+        {
+            // Arrange -> Act -> Assert
+            var repository = GetRepository();
+
+            var all = repository.GetAll();
+
+            foreach (var item in all)
+                repository.Delete(item);
         }
 
     }
