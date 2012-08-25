@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using System.IO;
+using System.Runtime.Serialization.Json;
+using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
 using Microsoft.ServiceModel.Web;
@@ -15,11 +17,11 @@ namespace NiCris.WCF.REST
     [ServiceContract(Namespace = "")]
     public class BizMsgService
     {
-        IBizMsgCoreService _businessMsgService;
+        IBizMsgCoreService _bizMsgCoreService;
 
         public BizMsgService()
         {
-            _businessMsgService = new BizMsgCoreService(new BizMsgRepository());
+            _bizMsgCoreService = new BizMsgCoreService(new BizMsgRepository());
         }
 
         [WebHelp(Comment = "Gets all BizMsgs.")]
@@ -30,18 +32,17 @@ namespace NiCris.WCF.REST
         {
             // Upon exception InternalServerError (500) is returned with Details
             BizMsgList bizMsgList = new BizMsgList();
-            bizMsgList.AddRange(_businessMsgService.GetAll());
-            
+            bizMsgList.AddRange(_bizMsgCoreService.GetAll());
             return bizMsgList;
         }
 
         [WebHelp(Comment = "Gets a specific BizMsgs.")]
-        [WebGet(UriTemplate = "/{id}")]
+        [WebGet(UriTemplate = "{id}")]
         [OperationContract]
         [OperationBehavior(Impersonation = ImpersonationOption.Allowed)]
         BizMsg GetBizMsg(string id)
         {
-            BizMsg bizMsg = _businessMsgService.GetById(int.Parse(id));
+            BizMsg bizMsg = _bizMsgCoreService.GetById(int.Parse(id));
             if (bizMsg == null)
             {
                 OutgoingWebResponseContext ctx = WebOperationContext.Current.OutgoingResponse;
@@ -56,21 +57,72 @@ namespace NiCris.WCF.REST
         [OperationBehavior(Impersonation = ImpersonationOption.Allowed)]
         void CreateBizMsg(BizMsg bizMsg)
         {
-            _businessMsgService.Insert(bizMsg);
+            var id = _bizMsgCoreService.Insert(bizMsg);
 
             OutgoingWebResponseContext ctx = WebOperationContext.Current.OutgoingResponse;
             ctx.StatusCode = System.Net.HttpStatusCode.Created;
         }
 
+        [WebHelp(Comment = "Updates a BizMsgs.")]
+        [WebInvoke(UriTemplate = "{id}", Method = "PUT")]
+        [OperationContract]
+        [OperationBehavior(Impersonation = ImpersonationOption.Allowed)]
+        void UpdateBizMsg(string id, BizMsg bizMsg)
+        {
+            var bizMsgToUpd = _bizMsgCoreService.GetById(int.Parse(id));
+
+            bizMsgToUpd.Name = bizMsg.Name;
+            bizMsgToUpd.Date = bizMsg.Date;
+            bizMsgToUpd.User = bizMsg.User;
+
+            bizMsgToUpd.Description = bizMsg.Description;
+            bizMsgToUpd.AppId = bizMsg.AppId;
+            bizMsgToUpd.ServiceId = bizMsg.ServiceId;
+            bizMsgToUpd.StyleId = bizMsg.StyleId;
+            bizMsgToUpd.Roles = bizMsg.Roles;
+
+            var updId = _bizMsgCoreService.Update(bizMsgToUpd);
+
+            OutgoingWebResponseContext ctx = WebOperationContext.Current.OutgoingResponse;
+            ctx.StatusCode = System.Net.HttpStatusCode.Accepted;
+        }
 
         [WebHelp(Comment = "Deletes an BizMsgs.")]
-        [WebInvoke(UriTemplate = "/{id}", Method = "DELETE")]
+        [WebInvoke(UriTemplate = "{id}", Method = "DELETE")]
         [OperationContract]
         [OperationBehavior(Impersonation = ImpersonationOption.Allowed)]
         void DeleteBizMsg(string id)
         {
-            BizMsg bizMsg = _businessMsgService.GetById(int.Parse(id));
-            _businessMsgService.Delete(bizMsg);
+            BizMsg bizMsg = _bizMsgCoreService.GetById(int.Parse(id));
+            _bizMsgCoreService.Delete(bizMsg);
+        }
+
+        // *************************************************************
+
+        /*
+        [WebHelp(Comment = "Gets all BizMsgs in Json.")]
+        [WebGet(UriTemplate = "?json", ResponseFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        BizMsgList GetAllBizMsgsJson()
+        {
+            BizMsgList bizMsgList = new BizMsgList();
+            bizMsgList.AddRange(_bizMsgCoreService.GetAll());
+            return bizMsgList;
+        }
+        */
+
+        [WebHelp(Comment = "Gets all BizMsgs as Json stream.")]
+        [WebGet(UriTemplate = "?json")]
+        [OperationContract]
+        Stream GetAllBizMsgsJsonStream()
+        {
+            BizMsgList bizMsgList = new BizMsgList();
+            bizMsgList.AddRange(_bizMsgCoreService.GetAll());
+
+            DataContractJsonSerializer x = new DataContractJsonSerializer(bizMsgList.GetType());
+            WebOperationContext.Current.OutgoingResponse.ContentType = "application/json";
+
+            return new AdapterStream((stream) => x.WriteObject(stream, bizMsgList));
         }
     }
 }
