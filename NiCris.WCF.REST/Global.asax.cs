@@ -1,9 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.ServiceModel.Description;
-using System.ServiceModel.Dispatcher;
 using System.Web;
 using System.Web.Routing;
 
@@ -13,7 +9,14 @@ namespace NiCris.WCF.REST
     {
         private void RegisterRoutes()
         {
+            // Non Security
             RouteTable.Routes.Add(new ServiceRoute("BizMsgService", new WebServiceHostFactory2(), typeof(BizMsgService)));
+            
+            // Win Auth
+            RouteTable.Routes.Add(new ServiceRoute("BizMsgServiceWinAuth", new WebServiceHostFactory2(), typeof(BizMsgServiceWinAuth)));
+
+            // Basic Auth thru Interceptor
+            RouteTable.Routes.Add(new ServiceRoute("BizMsgServiceBasicAuth", new WebServiceHostFactory2BasicAuth(), typeof(BizMsgServiceBasicAuth)));
         }
 
         protected void Application_Start(object sender, EventArgs e)

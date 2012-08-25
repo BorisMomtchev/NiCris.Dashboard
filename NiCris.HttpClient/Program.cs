@@ -2,6 +2,7 @@
 using System.Net;
 using Microsoft.Http;
 using System.Xml.Linq;
+using System.IO;
 
 namespace NiCris.HttpClient
 {
@@ -21,7 +22,7 @@ namespace NiCris.HttpClient
 
             Console.WriteLine("\nPress enter to issue an HTTP GET on {0} (ReadAsXElement)", BizMsgServiceUrl);
             Console.ReadLine();
-            HttpGetOnServiceReadAsString();
+            HttpGetOnServiceReadAsXElement();
 
             // Create
             Console.WriteLine("\nPress enter to issue an HTTP POST (Create) on {0}", BizMsgServiceUrl);
@@ -83,16 +84,21 @@ namespace NiCris.HttpClient
 
         private static void ProcessMessageAsXElement(XElement root)
         {
+            /*
             Console.WriteLine();
-
             foreach (XElement child in root.Elements())
             {
                 Console.WriteLine("Message Type: {0}", child.Name.LocalName);
-
                 foreach (var item in child.Elements())
                     Console.WriteLine("{0}: {1}", item.Name.LocalName, item.Value);
-
                 Console.WriteLine();
+            }
+            */
+
+            using (StringWriter sw = new StringWriter())
+            {
+                root.Save(sw, SaveOptions.None);
+                Console.WriteLine(sw.ToString());
             }
         }
 

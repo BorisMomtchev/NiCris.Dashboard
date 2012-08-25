@@ -52,6 +52,8 @@
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System" />
@@ -87,11 +89,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Interceptors\BasicAuthInterceptor.cs" />
+    <Compile Include="Interceptors\CustomMembershipProvider.cs" />
+    <Compile Include="Interceptors\PrincipalAuthorizationPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="REST\BizMsgService.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="REST\WebServiceHostFactory2.cs" />
+    <Compile Include="REST\BizMsgServiceBasicAuth.cs" />
+    <Compile Include="REST\BizMsgServiceWinAuth.cs" />
+    <Compile Include="REST\WebServiceHostFactories.cs" />
     <Compile Include="Utility\DynamicParameterData.cs" />
     <Compile Include="Utility\IServiceParameterMapper.cs" />
     <Compile Include="Utility\ServiceParameterMapper.cs" />

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Net;
 using System.Runtime.Serialization.Json;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
@@ -9,8 +10,6 @@ using NiCris.CoreServices.Interfaces;
 using NiCris.CoreServices.Services;
 using NiCris.DataAccess.SQL.Repositories;
 using NiCris.WCF.REST.ViewModels;
-using System.Net;
-using System;
 
 namespace NiCris.WCF.REST
 {
@@ -126,6 +125,7 @@ namespace NiCris.WCF.REST
         [WebHelp(Comment = "Gets all BizMsgs as Json stream.")]
         [WebGet(UriTemplate = "?json")]
         [OperationContract]
+        [OperationBehavior(Impersonation = ImpersonationOption.Allowed)]
         Stream GetAllBizMsgsJsonStream()
         {
             BizMsgList bizMsgList = new BizMsgList();
