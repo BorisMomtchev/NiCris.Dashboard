@@ -1,4 +1,8 @@
-﻿RESTClient, a debugger for RESTful web services.
+﻿*** REST Services built on the WCF Pipeline
+*** HttpClient
+*** REST Tester
+
+RESTClient, a debugger for RESTful web services.
 https://addons.mozilla.org/en-US/firefox/addon/restclient/
 
 ####################################################
